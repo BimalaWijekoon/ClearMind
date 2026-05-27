@@ -1,0 +1,88 @@
+version: '3.9'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: clearmind-postgres
+    environment:
+      POSTGRES_USER: clearmind
+      POSTGRES_PASSWORD: clearmind_secret
+      POSTGRES_DB: clearmind_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U clearmind -d clearmind_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: clearmind-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # FastAPI Backend
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: clearmind-backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/.env
+    environment:
+      DATABASE_URL: postgresql+asyncpg://clearmind:clearmind_secret@postgres:5432/clearmind_db
+      REDIS_URL: redis://redis:6379/0
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./backend/app:/app/app
+      - ./backend/ml_models:/app/ml_models
+    restart: unless-stopped
+
+  # React Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: clearmind-frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  # MLflow Tracking Server
+  mlflow:
+    image: python:3.11-slim
+    container_name: clearmind-mlflow
+    command: >
+      bash -c "pip install mlflow==2.13.0 psycopg2-binary &&
+               mlflow server --host 0.0.0.0 --port 5000
+               --backend-store-uri sqlite:///mlflow.db
+               --default-artifact-root /mlartifacts"
+    ports:
+      - "5000:5000"
+    volumes:
+      - mlflow_data:/mlartifacts
+
+volumes:
+  postgres_data:
+  redis_data:
+  mlflow_data:

@@ -1,0 +1,68 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Environment variables
+.env
+.env.local
+.env.production
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_metadata
+
+# ML Models (large files)
+backend/ml_models/bias_classifier/
+backend/ml_models/calibration/
+!backend/ml_models/.gitkeep
+
+# Data files (generated/downloaded)
+backend/data/
+!backend/data/.gitkeep
+
+# MLflow
+mlruns/
+mlartifacts/
+
+# Node
+node_modules/
+frontend/node_modules/
+
+# Build artifacts
+frontend/dist/
+frontend/.vite/
+
+# Docker
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Testing
+.pytest_cache/
+htmlcov/
+.coverage
+coverage/
+
+# Redis
+dump.rdb
