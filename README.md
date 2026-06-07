@@ -2,7 +2,7 @@
 
 > **Detects and Corrects Cognitive Biases in LLM Outputs in Real Time**
 
-[![CI](https://github.com/YOUR_USERNAME/clearmind/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_USERNAME/clearmind/actions)
+[![CI](https://github.com/BimalaWijekoon/ClearMind/actions/workflows/ci.yml/badge.svg)](https://github.com/BimalaWijekoon/ClearMind/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](https://python.org)
 
@@ -88,7 +88,7 @@ graph TB
 ### 1. Clone & Setup Backend
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/clearmind.git
+git clone https://github.com/BimalaWijekoon/ClearMind.git
 cd clearmind
 
 # Create Python virtual environment
@@ -196,7 +196,7 @@ MIT License — see [LICENSE](LICENSE) for details.
 ```bibtex
 @inproceedings{clearmind2026,
   title={ClearMind: Metacognitive Bias Detection and Correction in Large Language Models using Multi-Agent Architectures},
-  author={Your Name},
+  author={Bimala Wijekoon},
   year={2026},
   note={Submitted to 19th International Research Conference 2026}
 }
